@@ -42,6 +42,17 @@ function App() {
     setNewNote(event.target.value)
   }
 
+  const deleteNote = (id) => {
+    noteService
+      .deleteNote(id)
+      .then(response => {
+        setNotes(notes.filter(e => e.id !== id))
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+
   const toggleImportance = (id) => {
     const oldNote = notes.find( note => note.id === id)
     const newNote = {...oldNote, important: !oldNote.important}
@@ -49,6 +60,7 @@ function App() {
     noteService
       .update(id, newNote)
       .then(returnedNote => {
+        console.log('newnote', returnedNote)
         return setNotes(notes.map( note => note.id !== id? note : returnedNote ))
       })
       .catch(error => {
@@ -74,7 +86,8 @@ function App() {
             <Note 
             key={note.id} 
             note = {note} 
-            toggleImportance= {() => toggleImportance(note.id)} />
+            toggleImportance= {() => toggleImportance(note.id)}
+            deleteNote={() => deleteNote(note.id)} />
           )}
         </ul>
         <button onClick={() => setShowAll(!showAll)}>
