@@ -17,6 +17,7 @@ app.use(cors())
     Note.find({}).then(note => {
       response.json(note)
     })
+    .catch(error => response.status(404).end() )
   })
 
   app.get('/api/notes/:id', (request, response, next) => {
