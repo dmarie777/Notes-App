@@ -8,7 +8,8 @@
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:ui": "rm -rf dist && cd ../NotesFront && npm run build && cp -r dist ../NotesBackend",
-    "deploy:flull": "npm run buil:ui && git add . && git commit -m uibuild && git push"
+    "deploy:flull": "npm run buil:ui && git add . && git commit -m uibuild && git push",
+    "lint": "eslint ."
   },
   "author": "",
   "license": "ISC",
@@ -19,6 +20,7 @@
     "mongoose": "^7.6.3"
   },
   "devDependencies": {
+    "eslint": "^8.52.0",
     "nodemon": "^3.0.1"
   }
 }
