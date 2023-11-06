@@ -21,6 +21,14 @@ function App() {
       .then (initialNotes => {
         setNotes(initialNotes)
       })
+      .catch((err) => {
+        setErrorMessage(
+          err
+        )
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
+      })
   }, [])
 
   const addNote = (event) => {
@@ -35,6 +43,14 @@ function App() {
         setNotes(notes.concat(returnedNote))
         setNewNote('')
       })
+      .catch((err) => {
+        setErrorMessage(
+          err.response.data.error
+        )
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
+      })
   }
 
   const handleNoteChange = (event) => {
@@ -45,11 +61,16 @@ function App() {
   const deleteNote = (id) => {
     noteService
       .deleteNote(id)
-      .then(response => {
+      .then(() => {
         setNotes(notes.filter(e => e.id !== id))
       })
-      .catch(err => {
-        console.log(err)
+      .catch((err) => {
+        setErrorMessage(
+          err.response.data.error
+        )
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
       })
   }
 
@@ -63,7 +84,7 @@ function App() {
         console.log('newnote', returnedNote)
         return setNotes(notes.map( note => note.id !== id? note : returnedNote ))
       })
-      .catch(error => {
+      .catch(() => {
         setErrorMessage(
           `Note '${oldNote.content}' was already removed from server`
         )
