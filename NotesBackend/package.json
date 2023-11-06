@@ -8,7 +8,7 @@
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:ui": "rm -rf dist && cd ../NotesFront && npm run build && cp -r dist ../NotesBackend",
-    "deploy:flull": "npm run buil:ui && git add . && git commit -m uibuild && git push",
+    "deploy:flull": "npm run build:ui && git add . && git commit -m uibuild && git push",
     "lint": "eslint ."
   },
   "author": "",
