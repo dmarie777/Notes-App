@@ -21,6 +21,13 @@ test('notes are returned as json', async () => {
     .expect('Content-Type', /application\/json/)
 })
 
+test('a specific note is within the returned notes', async() => {
+  const response = await api.get('/api/notes')
+
+  const contents = response.body.map(r => r.content)
+  expect(contents).toContain('Browser can execute only JavaScript')
+})
+
 test('a valid note can be added', async () => {
   const newNote = {
     content: 'async/await simplifies making async calls',
@@ -57,11 +64,16 @@ test('all notes are returned', async () => {
   expect(response.body).toHaveLength(helper.initialNotes.length)
 })
 
-test('a specific note is within the returned notes', async() => {
-  const response = await api.get('/api/notes')
+test('a specific note can be viewed', async () => {
+  const noteAtStart = await helper.notesInDb()
+  const noteToView = noteAtStart[0]
 
-  const contents = response.body.map(r => r.content)
-  expect(contents).toContain('Browser can execute only JavaScript')
+  const resultNote = await api
+    .get(`/api/notes/${noteToView.id}`)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  expect(resultNote.body).toEqual(noteToView)
 })
 
 afterAll(async () => {
