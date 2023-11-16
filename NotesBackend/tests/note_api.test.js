@@ -8,15 +8,12 @@ const Note = require('../models/note')
 
 beforeEach(async () => {
   await Note.deleteMany({})
-  console.log('cleared')
   const noteObjects = helper.initialNotes.map(note => new Note(note))
-  console.log(noteObjects)
   const promiseArray = noteObjects.map(note => note.save())
   await Promise.all(promiseArray)
 })
 
 test('notes are returned as json', async () => {
-  console.log('test')
   await api
     .get('/api/notes')
     .expect(200)
