@@ -8,9 +8,7 @@ const Note = require('../models/note')
 
 beforeEach(async () => {
   await Note.deleteMany({})
-  const noteObjects = helper.initialNotes.map(note => new Note(note))
-  const promiseArray = noteObjects.map(note => note.save())
-  await Promise.all(promiseArray)
+  await Note.insertMany(helper.initialNotes)
 })
 
 test('notes are returned as json', async () => {
@@ -54,7 +52,7 @@ test('note without content is not added', async () => {
     .expect(400)
 
   const notesAtEnd = await helper.notesInDb()
-  expect(notesAtEnd).toHaveLength(initialNotes.length)
+  expect(notesAtEnd).toHaveLength(helper.initialNotes.length)
 })
 
 test('all notes are returned', async () => {
